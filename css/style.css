@@ -1,0 +1,430 @@
+@font-face {
+  font-family: 'LockerFont';
+  src: url('../fonts/Cg_Locker_font-Regular.otf') format('opentype'),
+       url('../fonts/Cg_Locker_font-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'HandwrittenFont';
+  src: url('../fonts/Cg_handwritten-Regular.otf') format('opentype'),
+       url('../fonts/Cg_handwritten-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'EightBit';
+  src: url('../fonts/EightBitDragon-anqx.ttf') format('truetype');
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0d0d0d;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+#game-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#game {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  transform-origin: center center;
+  flex-shrink: 0;
+}
+
+/* ── Dialogue Box ── */
+.dialogue-box {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 8px 10px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dlg-you-tag {
+  display: inline-block;
+  background-image: url('../text-box/Dialogue-box.PNG');
+  background-size: 100% 100%;
+  font-family: 'LockerFont', sans-serif;
+  font-size: 13px;
+  color: #fff;
+  padding: 3px 14px 3px 10px;
+  min-width: 54px;
+  text-align: center;
+  line-height: 26px;
+  height: 26px;
+  margin-bottom: 2px;
+}
+
+.dlg-textbox {
+  position: relative;
+  background-image: url('../text-box/Text-box.PNG');
+  background-size: 100% 100%;
+  min-height: 68px;
+  padding: 10px 36px 10px 14px;
+}
+
+.dlg-text {
+  font-family: 'LockerFont', sans-serif;
+  font-size: 12.5px;
+  color: #3a2000;
+  line-height: 1.55;
+}
+
+.dlg-arrow {
+  position: absolute;
+  bottom: 8px; right: 10px;
+  width: 14px; height: 14px;
+  background-image: url('../text-box/Arrow-next.PNG');
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+/* ── Hand + Paper ── */
+.paper-layer {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.paper-layer img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.paper-text {
+  position: absolute;
+  font-family: 'HandwrittenFont', cursive;
+  color: #1b3b7a;
+  pointer-events: auto;
+}
+
+/* Paper text zone per scene — top/left/width relative to #game */
+.paper-text-title   { top: 56%; left: 20%; width: 70%; font-size: 19px; line-height: 1.8; }
+.paper-text-hallway { top: 55%; left: 20%; width: 66%; font-size: 15px; line-height: 1.65; }
+.paper-text-locker  { top: 52%; left: 22%; width: 63%; font-size: 13.5px; line-height: 1.5; }
+.paper-text-tk      { top: 52%; left: 22%; width: 63%; font-size: 13.5px; line-height: 1.5; }
+
+/* ── Title Scene ── */
+.title-logo {
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 86%;
+  z-index: 10;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.7));
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-6px); }
+}
+
+.start-btn {
+  position: absolute;
+  bottom: 11%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'HandwrittenFont', cursive;
+  font-size: 34px;
+  color: #1b3b7a;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  cursor: pointer;
+  z-index: 25;
+  letter-spacing: 2px;
+  transition: color .15s, transform .15s;
+}
+.start-btn:active { color: #e05050; transform: translateX(-50%) scale(.95); }
+
+/* ── Hallway Input ── */
+.name-stepper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 6px 0 4px;
+}
+
+.step-btn {
+  background: #c8860a;
+  color: #fff;
+  border: 2px solid #7a4e00;
+  border-radius: 5px;
+  font-family: 'LockerFont', sans-serif;
+  font-size: 24px;
+  width: 38px; height: 38px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+  pointer-events: auto;
+}
+.step-btn:active { background: #8a5400; }
+
+.step-val {
+  font-size: 36px;
+  font-family: 'HandwrittenFont', cursive;
+  color: #1b3b7a;
+  min-width: 44px;
+  text-align: center;
+}
+
+/* ── Next / Back buttons ── */
+.nav-btn {
+  position: absolute;
+  bottom: 18px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(200,134,10,.92);
+  border: 2px solid #7a4e00;
+  border-radius: 7px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-family: 'LockerFont', sans-serif;
+  font-size: 14px;
+  color: #fff;
+}
+.nav-btn:active { background: #8a5400; }
+.nav-next { right: 14px; }
+.nav-back { left: 14px; }
+
+.nav-btn .nav-icon {
+  width: 12px; height: 12px;
+  background-image: url('../text-box/Arrow-next.PNG');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.nav-back .nav-icon { transform: rotate(180deg); }
+
+/* ── Lock Overlay ── */
+.lock-wrap {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 42%;
+  z-index: 15;
+}
+
+.lock-body-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.lock-dial-img {
+  position: absolute;
+  /* center the round dial inside the padlock body circle */
+  top: 39%;
+  left: 9%;
+  width: 82%;
+  height: auto;
+  transition: transform 0.45s cubic-bezier(.4,0,.2,1);
+  z-index: 2;
+  transform-origin: center center;
+}
+
+/* ── Combo line ── */
+.combo-line { margin-bottom: 2px; }
+.combo-nums {
+  font-size: 22px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.cd-filled { color: #1b3b7a; }
+.cd-pending { color: #bbb; }
+.cd-sep     { color: #888; margin: 0 1px; }
+
+/* ── Groups list ── */
+.groups-list { font-size: 13px; }
+.gi { margin-bottom: 1px; }
+.gi-strike { text-decoration: line-through; color: #999; }
+
+/* ── Group selector buttons ── */
+.group-prompt {
+  position: absolute;
+  z-index: 30;
+  bottom: 43%;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: 'LockerFont', sans-serif;
+  font-size: 13px;
+  color: #fff;
+  text-shadow: 0 1px 3px #000;
+}
+
+.group-btns {
+  position: absolute;
+  z-index: 30;
+  bottom: 32%;
+  left: 8px; right: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+
+.g-btn {
+  background: #c8860a;
+  color: #fff;
+  border: 2px solid #7a4e00;
+  border-radius: 6px;
+  font-family: 'LockerFont', sans-serif;
+  font-size: 18px;
+  width: 46px; height: 46px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .1s, transform .1s;
+}
+.g-btn:active { background: #8a5400; transform: scale(.92); }
+
+/* ── TK Dials ── */
+.tk-dials-wrap {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 22;
+}
+
+.tk-dial-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.dial-arrow-btn {
+  background: rgba(0,0,0,.55);
+  color: #ffd;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 4px;
+  font-size: 13px;
+  width: 46px; height: 22px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.dial-arrow-btn:active { background: rgba(0,0,0,.8); }
+
+.tk-dial-img {
+  width: 46px;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+/* ── Open/Confirm button ── */
+.open-btn {
+  position: absolute;
+  z-index: 32;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #c8860a;
+  color: #fff;
+  border: 3px solid #7a4e00;
+  border-radius: 9px;
+  font-family: 'LockerFont', sans-serif;
+  font-size: 22px;
+  padding: 11px 36px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,.5);
+}
+.open-btn:active { background: #8a5400; transform: translateX(-50%) scale(.95); }
+
+/* ── Name Reveal ── */
+.reveal-name {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translateX(-50%) scale(.85);
+  font-family: 'HandwrittenFont', cursive;
+  font-size: 54px;
+  color: #1b3b7a;
+  z-index: 22;
+  opacity: 0;
+  transition: opacity .9s ease, transform .9s ease;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 1px 2px 6px rgba(255,255,255,.5);
+}
+.reveal-name.show {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ── Play Again ── */
+.play-again-wrap {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pa-btn {
+  background: #c8860a;
+  color: #fff;
+  border: 3px solid #7a4e00;
+  border-radius: 9px;
+  font-family: 'LockerFont', sans-serif;
+  font-size: 20px;
+  padding: 12px 32px;
+  cursor: pointer;
+  min-width: 180px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,.5);
+}
+.pa-btn:active { background: #8a5400; }
+
+/* ── Transition overlay ── */
+.scene-fade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.scene-fade.dark { opacity: 1; }
+
+/* ── Helpers ── */
+.lf  { font-family: 'LockerFont', sans-serif; }
+.hwf { font-family: 'HandwrittenFont', cursive; }
+.eb  { font-family: 'EightBit', monospace; }
