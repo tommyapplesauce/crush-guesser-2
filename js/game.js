@@ -181,10 +181,13 @@ function renderTitle(g) {
   setBg('background/view-1-school-hallway.png');
   g.appendChild(mkImg('title/Crush-guesser-title.png', 'title-logo'));
 
-  buildPaper(g, 'hand-with-paper-hallway.PNG', 'paper-text-title', txt => {
-    txt.innerHTML =
-      '<span class="hwf">Think of a name.<br>Don\'t say it out loud.</span>';
-  });
+  // Paper layer with text inside so both sway together
+  const layer = mk('div', 'paper-layer paper-layer--title');
+  layer.appendChild(mkImg('hand-with-paper/hand-with-paper-hallway.PNG', ''));
+  const overlay = mk('div', 'paper-text paper-text-title');
+  overlay.innerHTML = '<span class="hwf">Think of a name.<br>Don\'t say it out loud.</span>';
+  layer.appendChild(overlay);
+  g.appendChild(layer);
 
   const startBtn = mk('div', 'start-btn hwf');
   startBtn.textContent = 'START';
