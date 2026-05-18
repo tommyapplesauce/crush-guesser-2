@@ -184,15 +184,26 @@ function renderTitle(g) {
   // Paper layer with text inside so both sway together
   const layer = mk('div', 'paper-layer paper-layer--title');
   layer.appendChild(mkImg('hand-with-paper/hand-with-paper-hallway.PNG', ''));
+
   const overlay = mk('div', 'paper-text paper-text-title');
-  overlay.innerHTML = '<span class="hwf">Think of a name.<br>Don\'t say it out loud.</span>';
+  overlay.innerHTML = `
+    <span class="paper-line hwf">Back then, names meant a whole lot more...</span>
+    <span class="paper-line hwf">Now, think of a name.</span>
+    <span class="paper-line hwf">Don't say it out loud.</span>
+    <span class="start-line" id="start-link">
+      <span class="start-text">START</span>
+      <svg class="start-squiggle" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M2,6 Q9,2 17,5 T31,5 Q40,8 50,4 T68,5 Q78,2 87,6 T98,5"/>
+      </svg>
+    </span>
+  `;
   layer.appendChild(overlay);
   g.appendChild(layer);
 
-  const startBtn = mk('div', 'start-btn hwf');
-  startBtn.textContent = 'START';
-  startBtn.addEventListener('click', () => goto(S.HALLWAY_INTRO));
-  g.appendChild(startBtn);
+  // wire up START after insertion
+  requestAnimationFrame(() => {
+    document.getElementById('start-link')?.addEventListener('click', () => goto(S.HALLWAY_INTRO));
+  });
 }
 
 // ── HALLWAY INTRO ──────────────────────────────────────────────────────────
